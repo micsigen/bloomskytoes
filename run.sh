@@ -2,7 +2,7 @@
 # This variable should be set manually.
 ES_HOST="http://localhost:9200"
 
-DATA_FOLDER="data"
+DATA_FOLDER="./data"
 
 BLOOMSKY_FILE_NAME=$DATA_FOLDER/bloomsky.json
 ES_FILE_NAME=$DATA_FOLDER/es.json
