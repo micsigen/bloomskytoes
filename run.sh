@@ -1,25 +1,21 @@
 #!/bin/sh
 # This variable should be set manually.
 ES_HOST="http://localhost:9200"
-
-DATA_FOLDER="./data"
+PWD=`pwd`
+DATA_FOLDER=$PWD"/data"
 
 BLOOMSKY_FILE_NAME=$DATA_FOLDER/bloomsky.json
 ES_FILE_NAME=$DATA_FOLDER/es.json
-ES_INDEX_FILE_NAME=mapping.txt
-
-ES_INDEX_URL=$ES_HOST/bloomsky-$(date +%F)
 ES_URL=$ES_HOST/bloomsky/doc/_bulk?pretty
 
-echo "---------=======----------"
-echo "Getting data from Bloomsky API!"
+echo "$(date +%F_%R:%S): Getting data from Bloomsky API to $BLOOMSKY_FILE_NAME."
 ./Bloomsky_API_intl.sh > $BLOOMSKY_FILE_NAME
 
-echo "Parsing data in $BLOOMSKY_FILE_NAME started at $(date +%F_%R)."
+echo "$(date +%F_%R:%S): Parsing data from $BLOOMSKY_FILE_NAME to $ES_FILE_NAME started."
 ./parse-bloomsky-json.sh $BLOOMSKY_FILE_NAME > $ES_FILE_NAME
 
-echo "Upload parsed data in $ES_FILE_NAME started at $(date +%F_%R)."
+echo "$(date +%F_%R:%S): Uploading parsed data in $ES_FILE_NAME to $ES_URL."
 curl -H 'Content-Type: application/x-ndjson' -XPOST $ES_URL --data-binary @$ES_FILE_NAME
-echo "Upload is finished!"
+echo "$(date +%F_%R:%S): Uploading is finished."
 
 echo "---------=======----------"
