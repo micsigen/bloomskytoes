@@ -6,7 +6,7 @@ if [ $# -eq 0 ]
     exit
 fi
 
-cat $1 | jq -c '.[0] |
+cat $1 | /usr/local/bin/jq -c '.[0] |
 {
 	index:
 	{
@@ -15,7 +15,7 @@ cat $1 | jq -c '.[0] |
 	}
 }'
 
-cat $1 | jq -c '.[0] |
+cat $1 | /usr/local/bin/jq -c '.[0] |
 {
 	ts: .Data.TS | strftime("%Y-%m-%d %H:%M:%S"),
 	temperature: .Data.Temperature,
